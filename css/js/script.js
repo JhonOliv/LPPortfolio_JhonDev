@@ -2,7 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", async function () {
     try {
-        const response = await fetch("http://localhost:3333/listComments");
+        const response = await fetch("https://lpportfolio-jhondev.onrender.com/listComments");
 
         if (!response.ok) {
             throw new Error(`Erro ao buscar comentários: ${response.status}`);
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     async function addComentario(nome, descricao, nota) {
         try {
             
-            const response = await fetch("http://localhost:3333/addNewComment", {
+            const response = await fetch("https://lpportfolio-jhondev.onrender.com/addNewComment", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
