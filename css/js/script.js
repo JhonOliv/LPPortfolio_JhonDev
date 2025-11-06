@@ -9,8 +9,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         var comentarios = await response.json();
-        console.log(comentarios); // array de comentários
-
     } catch (error) {
         console.error(error);
     }
@@ -74,10 +72,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             for (let i = 0; i < comentarios.comments.length; i++) {
                 const html = `
             <div class="col-md-3 item-carousel">
-                        <div class="card shadow  ">
+                        <div class="card shadow  marginCard">
                             <h3 class="text-center p-2">Comentário</h3>
                             <div class="card-body p-3">
-                                <div class="border border-primary h-100">
+                                <div class=" h-100">
                                     <div>
                                         <p class="card-text fs-5">"${comentarios[j].descricao}"</p>
                                     </div>
@@ -98,8 +96,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                 for (let j = i; j < i + 3 && j < comentarios.length; j++) {
                     cardsHtml += `
-                    <div class="col-md-3 item-carousel">
-                        <div class="card shadow ">
+                    <div class="col-md-3 item-carousel ">
+                        <div class="card shadow marginCard">
                             <h3 class="text-center p-2">Comentário</h3>
                             <div class="card-body p-3">
                                 <div class="h-100">
@@ -158,7 +156,6 @@ window.addEventListener("scroll", function revealSections() {
 
     const sections = [aboutme, service, portfolio, comments, contact];
     const triggerBottom = window.innerHeight * 0.85; // ponto de ativação
-    console.log(triggerBottom)
     sections.forEach(section => {
         if (!section) return; // evita erro se faltar alguma seção
 
