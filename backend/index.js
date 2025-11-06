@@ -4,6 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import commentsRoutes from "./routers/routerComments.js";
+import fastifyMailer from "fastify-mailer";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -25,11 +26,23 @@ const db = getFirestore(firebaseApp);
 export { db, firebaseApp };
 
 const fastify = Fastify();
+fastify.decorate("firestore", db);
 fastify.register(fastifyCors, {
   origin: "*" 
 });
-fastify.decorate("firestore", db);
 fastify.register(commentsRoutes);
+fastify.register(fastifyMailer, {
+  defaults: { from: process.env.MAIL_USER },
+  transport: {
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS
+    }
+  }
+});
 
 const start = async () => {
   try {

@@ -1,6 +1,5 @@
 import { collection, getDocs, query, orderBy, addDoc, where } from "firebase/firestore";
 
-
 export const listComments = async (request, reply) => {
   try {
 
@@ -62,3 +61,32 @@ export const addNewComment = async (request, reply) => {
     reply.status(500).send({ error: error.message });
   }
 }
+
+export const sendEmail = async (request, reply) => {
+  try {
+    const { nome, assunto, tel, mensagem, email } = request.body;
+
+    if (!nome || !email || !assunto || !tel || !mensagem) {
+      return reply.status(400).send({ mensagem: "Campos inválidos, verifique quais foram preenchidos" });
+    }
+
+    await request.server.mailer.sendMail({
+      to: "jhonatan.jsilvajos@gmail.com",
+      subject: `Novo contato de ${nome}`,
+      text: `Telefone de Contato: ${tel}\n\n${mensagem}`,
+      replyTo: email
+    });
+
+    return reply.status(200).send({
+      mensagem: "E-mail enviado com sucesso!"
+    });
+
+  } catch (error) {
+    request.log.error(error);
+    return reply.status(500).send({
+      mensagem: "Erro ao enviar e-mail",
+      detalhe: error.message
+    });
+  }
+};
+
